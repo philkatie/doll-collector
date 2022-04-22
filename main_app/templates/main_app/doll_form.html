@@ -8,11 +8,19 @@
     {% endif %}
   <!-- Leaving the action empty makes the form post to the same url used to display it -->
   <form action="" method="post">
+    <p>
+        <label>
+          <input type="checkbox" />
+          <span>Red</span>
+        </label>
+    </p>
     <!-- Django requires the following for security purposes -->
     {% csrf_token %}
+    <!-- {{ form }} -->
+    {{ form.as_p }}
     <table>
       <!-- Render the inputs inside of <tr>s & <td>s -->
-      {{ form.as_table }}
+      <!-- {{ form.as_table }} -->
     </table>
     <input type="submit" value="Submit!" class="btn">
   </form>
