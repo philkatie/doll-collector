@@ -16,12 +16,10 @@ dolls = [
     Doll('Mary Lou', True, 'when my grandma died she became a doll!', 97)
 ]
 
-# Create your views here.
 def home(request):
     return HttpResponse('<h1>Welcome to the dollhouse!</h1>')
 
 def about(request):
-    return render(request, 'about.html') 
     return render(request, 'about.html')
 
 def dolls_index(request):
