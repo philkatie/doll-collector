@@ -13,6 +13,10 @@
     {% else %}
       <p>This doll is not haunted yet.</p>
     {% endif %}
+    <div class="card-action">
+        <a href="{% url 'dolls_update' doll.id %}">Edit</a>
+        <a href="{% url 'dolls_delete' doll.id %}">Delete</a>
+      </div>
   </div>
 </div>
 

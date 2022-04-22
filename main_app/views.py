@@ -1,11 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Doll
 
 class DollCreate(CreateView):
     model = Doll
     fields = '__all__'
+
+class DollUpdate(UpdateView):
+    model = Doll
+    fields = ['name', 'description', 'age']
+
+class DollDelete(DeleteView):
+    model = Doll
+    success_url = '/dolls/'
 
 # Create your views here.
 
