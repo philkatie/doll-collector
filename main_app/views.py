@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView
 from .models import Doll
+
+class DollCreate(CreateView):
+    model = Doll
+    fields = '__all__'
 
 # Create your views here.
 

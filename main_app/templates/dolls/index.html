@@ -4,7 +4,7 @@
 <h1>Doll List</h1>
 
 {% for doll in dolls %}
-    <a href="/dolls/{{ doll.id }}">
+    <a href="{% url 'detail' doll.id %}">
         <div class="card">
             <div class="card-content">
                 <span class="card-title">{{ doll.name }}</span>
