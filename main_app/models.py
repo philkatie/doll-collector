@@ -23,9 +23,18 @@ TYPES = (
     ('E', 'Exorcism Attempt')    
 )
 
+HAUNTS = (
+	('True', 'True'),
+	('False', 'False')
+)
+
 class Doll(models.Model):
     name = models.CharField(max_length=100)
-    haunted = models.BooleanField()
+    haunted = models.CharField(
+		max_length=5,
+		choices=HAUNTS,
+		default=HAUNTS[0]
+	)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
 
