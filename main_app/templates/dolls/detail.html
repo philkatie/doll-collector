@@ -28,6 +28,12 @@
       {{ seance_form.as_p }}
       <input type="submit" class="btn" value="Add Seance">
     </form>
+    <br>
+    {% if doll.seance_today %}
+    <div class="card-panel teal-text center-align">{{doll.name}} has been recently contacted.</div>
+    {% else %}
+      <div class="card-panel red-text center-align">{{doll.name}} might be ready to communicate.</div>
+    {% endif %}
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Seance Type</th></tr>

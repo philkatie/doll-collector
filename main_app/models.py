@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
+
 
 # Create your models here.
 
@@ -43,6 +45,10 @@ class Doll(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', kwargs={'doll_id': self.id})
+        
+    def seance_today(self):
+        return self.seance_set.filter(date=date.today()).count() >= 1
+
 
 class Seance(models.Model):
     date = models.DateField('seance date')
@@ -56,3 +62,7 @@ class Seance(models.Model):
 
     def __str__(self):
         return f"{self.get_type_display()} on {self.date}"
+    
+    class Meta:
+        ordering = ['-date']
+
