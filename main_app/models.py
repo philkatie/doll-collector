@@ -24,8 +24,8 @@ TYPES = (
 )
 
 HAUNTS = (
-	('True', 'True'),
-	('False', 'False')
+	('True', True),
+	('False', False)
 )
 
 class Doll(models.Model):

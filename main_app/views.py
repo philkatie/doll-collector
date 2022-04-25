@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Doll
@@ -34,3 +34,11 @@ def dolls_detail(request, doll_id):
     return render(request, 'dolls/detail.html', { 
         'doll': doll, 'seance_form': seance_form 
     }) 
+
+def add_seance(request, doll_id):
+    form = SeanceForm(request.POST)
+    if form.is_valid():
+        new_seance = form.save(commit=False)
+        new_seance.doll_id = doll_id
+        new_seance.save()
+    return redirect('detail', doll_id=doll_id)
