@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Doll
+from django.views.generic import ListView, DetailView
+from .models import Doll, Talisman
 from .forms import SeanceForm
 
 class DollCreate(CreateView):
@@ -19,7 +19,7 @@ class DollDelete(DeleteView):
 # Create your views here.
 
 def home(request):
-    return HttpResponse('<h1>Welcome to the dollhouse!</h1>')
+    return render(request, 'home.html')
 
 def about(request):
     return render(request, 'about.html')
@@ -42,3 +42,17 @@ def add_seance(request, doll_id):
         new_seance.doll_id = doll_id
         new_seance.save()
     return redirect('detail', doll_id=doll_id)
+
+class TalismanList(ListView):
+    model = Talisman
+
+class TalismanDetail(DetailView):
+    model = Talisman
+
+class TalismanCreate(CreateView):
+    model = Talisman
+    fields = '__all__'
+
+class TalismanDelete(DeleteView):
+    model = Talisman
+    success_url = '/talismans/'
