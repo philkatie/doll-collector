@@ -53,6 +53,10 @@ class TalismanCreate(CreateView):
     model = Talisman
     fields = '__all__'
 
+class TalismanUpdate(UpdateView):
+    model = Talisman
+    fields = ['name', 'color']
+
 class TalismanDelete(DeleteView):
     model = Talisman
     success_url = '/talismans/'
