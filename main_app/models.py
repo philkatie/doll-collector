@@ -26,8 +26,8 @@ TYPES = (
 )
 
 HAUNTS = (
-	('True', True),
-	('False', False)
+	('True', 'True'),
+	('False', 'False')
 )
 
 class Talisman(models.Model):
