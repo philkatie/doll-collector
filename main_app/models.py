@@ -49,6 +49,7 @@ class Doll(models.Model):
 	)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+    talismans = models.ManyToManyField(Talisman)
 
     def __str__(self):
         return self.name 
