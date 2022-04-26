@@ -23,37 +23,49 @@
     </div>
   </div>
   <div class="col s6">
-    <form action ="{% url 'add_seance' doll.id %}" method="post">
-      {% csrf_token %}
-      {{ seance_form.as_p }}
-      <input type="submit" class="btn" value="Add Seance">
-    </form>
-    <br>
-    {% if doll.seance_today %}
-    <div class="card-panel teal-text center-align">{{doll.name}} has been recently contacted.</div>
+    <h5>Conduct a Seance with {{ doll.name }}</h5>
+    {% if doll.haunted == "True" %}
+      <form action ="{% url 'add_seance' doll.id %}" method="post">
+        {% csrf_token %}
+        {{ seance_form.as_p }}
+        <input type="submit" class="btn" value="Add Seance">
+      </form>
+      <br>
+      {% if doll.seance_today %}
+      <div class="card-panel teal-text center-align">{{doll.name}} has been recently contacted.</div>
+      {% else %}
+        <div class="card-panel red-text center-align">{{doll.name}} might be ready to communicate.</div>
+      {% endif %}
+      <table class="striped">
+        <thead>
+          <tr><th>Date</th><th>Seance Type</th></tr>
+        </thead>
+        <tbody>
+          {% for seance in doll.seance_set.all %}
+          <tr>
+            <td>{{seance.date}}</td>
+              {% if seance.type == 'E' %}
+                <td>{{seance.get_type_display}} (failed)</td>
+              {% else %}
+                <td>{{seance.get_type_display}}</td>
+              {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     {% else %}
-      <div class="card-panel red-text center-align">{{doll.name}} might be ready to communicate.</div>
+    <div class="card-panel teal-text center-align">{{doll.name}} is not currently haunted and cannot be contacted via seance.</div>
     {% endif %}
-    <table class="striped">
-      <thead>
-        <tr><th>Date</th><th>Seance Type</th></tr>
-      </thead>
-      <tbody>
-        {% for seance in doll.seance_set.all %}
-        <tr>
-          <td>{{seance.date}}</td>
-          <td>{{seance.get_type_display}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
   </div>
 </div>
 
 <hr>
 <div class="row">
   <div class="col s6">
-    <h4>Talismans that will protect you from {{ doll.name }}</h3>
+    <h4>Talismans that will protect you from {{ doll.name }}</h4>
+    {% if doll.haunted == "False" %}
+      <p>You know, in case {{ doll.name }} becomes possessed anytime soon.</p>
+    {% endif %}
     {% if doll.talismans.count %}
       {% for tal in doll.talismans.all %}
         <div class="card">
@@ -65,7 +77,11 @@
         </div>
       {% endfor %}
     {% else %}
-      <h5>No Talisman will currently keep you safe from {{ doll.name }}</h5>
+      {% if doll.haunted == "False" %}
+        <p>You don't need protection from {{ doll.name }}! ...yet</p>
+      {% else %}
+        <h5>No Talisman will currently keep you safe from {{ doll.name }}</h5>
+      {% endif %}
     {% endif %}
   </div>
 
