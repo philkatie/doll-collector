@@ -10,6 +10,39 @@
   <form action="" method="post">
     <!-- Django requires the following for security purposes -->
     {% csrf_token %}
+
+    {% comment %} <div class="row">
+      <div class="input-field">
+        <input  id="id_name" type="text" name="name" maxlength="100" required>
+        <label for="name">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <label>
+        <input for="id_haunted" type="checkbox" name="haunted" class="filled-in" checked="checked" />
+        <span>Haunted</span>
+      </label>
+    </div>
+    <div class="row">
+      <textarea name="description" cols="40" rows="10" maxlength="250" required id="id_description"></textarea>
+      <label for="id_description">Description:</label>
+    </div>
+    <div class="row">
+      <div class="input-field">
+        <input type="number" name="age" maxlength="100" required id="id_age">
+        <label for="id_age">Age:</label>
+      </div>
+    </div>
+    <div class="row">
+      <select multiple name="talismans" id="id_talismans">
+        <option value="" disabled selected>Choose this doll's talismans:</option>
+        {% for tal in talismans.all %}
+          <option value="{{ tal.id }}">{{ tal.name }}</option>
+        {% endfor %}
+      </select>
+      <label for="id_talismans">Talismans:</label>
+    </div> {% endcomment %}
+
     <!-- {{ form }} -->
     <table>
       <!-- Render the inputs inside of <tr>s & <td>s -->
@@ -20,7 +53,7 @@
 
 
   <script>
-    const selectEl = document.getElementById('id_haunted');
+    const selectEl = document.getElementById('id_talismans');
     M.FormSelect.init(selectEl);
   </script>
 {% endblock %}

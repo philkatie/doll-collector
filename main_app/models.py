@@ -47,6 +47,7 @@ class Doll(models.Model):
 		choices=HAUNTS,
 		default=HAUNTS[0]
 	)
+    # haunted = models.BooleanField()
     description = models.TextField(max_length=250)
     age = models.IntegerField()
     talismans = models.ManyToManyField(Talisman)
