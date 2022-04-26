@@ -30,9 +30,10 @@ def dolls_index(request):
 
 def dolls_detail(request, doll_id):
     doll = Doll.objects.get(id=doll_id)
+    talismans_doll_doesnt_have = Talisman.objects.exclude(id__in = doll.talismans.all().values_list('id'))
     seance_form = SeanceForm()
     return render(request, 'dolls/detail.html', { 
-        'doll': doll, 'seance_form': seance_form 
+        'doll': doll, 'seance_form': seance_form, 'talismans': talismans_doll_doesnt_have 
     }) 
 
 def add_seance(request, doll_id):

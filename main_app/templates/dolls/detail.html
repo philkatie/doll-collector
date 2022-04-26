@@ -53,7 +53,7 @@
 <hr>
 <div class="row">
   <div class="col s6">
-    <h3>Talismans that will ward {{ doll.name }} away</h3>
+    <h4>Talismans that will protect you from {{ doll.name }}</h3>
     {% if doll.talismans.count %}
       {% for tal in doll.talismans.all %}
         <div class="card">
@@ -65,11 +65,33 @@
         </div>
       {% endfor %}
     {% else %}
-      <h5>No Talisman will currently keep you safe from {{ doll.name }}</h5>
+      <h4>No Talisman will currently keep you safe from {{ doll.name }}</h4>
     {% endif %}
   </div>
-</div>
 
+  <div class="col s6">
+    <h4>Talismans available to be imbued with a spell to protect against {{ doll.name }}</h4>
+    {% if talismans.count %}
+      {% for tal in talismans.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A <span style="color: {{ tal.color }}">{{ tal.color }}</span> {{ tal.name }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Imbue With Protection Spell</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>All available talismans have already been imbued against {{ doll.name }}. I hope it's enough!</h5>
+    {% endif %}  
+  </div>
+</div>
 
 <script>
   const dateEl = document.getElementById('id_date');
