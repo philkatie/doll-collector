@@ -11,7 +11,7 @@ BUCKET = 'catcollectorphilkatie'
 
 class DollCreate(CreateView):
     model = Doll
-    fields = '__all__'
+    fields = ['name', 'haunted', 'description', 'age']
 
 class DollUpdate(UpdateView):
     model = Doll
@@ -60,7 +60,6 @@ def add_photo(request, doll_id):
             s3.upload_fileobj(photo_file, BUCKET, key)
             # build the full url string
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            # we can assign to cat_id or cat (if you have a cat object)
             Photo.objects.create(url=url, doll_id=doll_id)
         except:
             print('An error occurred uploading file to S3')
