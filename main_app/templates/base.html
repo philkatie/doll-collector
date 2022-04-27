@@ -19,11 +19,16 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;DollCollector</a></li>
         </ul>
         <ul class="right">
-            <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          {% if user.is_authenticated %}
             <li><a href="{% url 'talismans_create' %}">Add a Talisman</a></li>
             <li><a href="{% url 'talismans_index' %}">View All Talismans</a></li>
             <li><a href="{% url 'dolls_create' %}">Add a Doll</a></li>
             <li><a href="{% url 'index' %}">View All My Dolls</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+          {% endif %}
         </ul>
       </div>
     </nav>
