@@ -78,3 +78,9 @@ class Seance(models.Model):
     class Meta:
         ordering = ['-date']
 
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    doll = models.ForeignKey(Doll, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for doll_id: {self.doll_id} @{self.url}"
