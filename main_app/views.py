@@ -3,6 +3,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
 from .models import Doll, Talisman, Photo
@@ -11,7 +13,7 @@ from .forms import SeanceForm
 S3_BASE_URL = 'https://s3.us-east-2.amazonaws.com/'
 BUCKET = 'catcollectorphilkatie'
 
-class DollCreate(CreateView):
+class DollCreate(LoginRequiredMixin, CreateView):
     model = Doll
     fields = ['name', 'haunted', 'description', 'age']
 
@@ -19,11 +21,11 @@ class DollCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class DollUpdate(UpdateView):
+class DollUpdate(LoginRequiredMixin, UpdateView):
     model = Doll
     fields = ['name', 'description', 'age']
 
-class DollDelete(DeleteView):
+class DollDelete(LoginRequiredMixin, DeleteView):
     model = Doll
     success_url = '/dolls/'
 
@@ -35,10 +37,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def dolls_index(request):
-    dolls = Doll.objects.all()
+    dolls = Doll.objects.filter(user=request.user)
     return render(request, 'dolls/index.html', { 'dolls': dolls }) 
 
+@login_required
 def dolls_detail(request, doll_id):
     doll = Doll.objects.get(id=doll_id)
     talismans_doll_doesnt_have = Talisman.objects.exclude(id__in = doll.talismans.all().values_list('id'))
@@ -47,6 +51,7 @@ def dolls_detail(request, doll_id):
         'doll': doll, 'seance_form': seance_form, 'talismans': talismans_doll_doesnt_have 
     }) 
 
+@login_required
 def add_seance(request, doll_id):
     form = SeanceForm(request.POST)
     if form.is_valid():
@@ -55,6 +60,7 @@ def add_seance(request, doll_id):
         new_seance.save()
     return redirect('detail', doll_id=doll_id)
 
+@login_required
 def add_photo(request, doll_id):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
@@ -71,29 +77,31 @@ def add_photo(request, doll_id):
             print('An error occurred uploading file to S3')
     return redirect('detail', doll_id=doll_id)
 
+@login_required
 def assoc_talisman(request, doll_id, talisman_id):
     Doll.objects.get(id=doll_id).talismans.add(talisman_id)
     return redirect('detail', doll_id=doll_id)
 
+@login_required
 def unassoc_talisman(request, doll_id, talisman_id):
     Doll.objects.get(id=doll_id).talismans.remove(talisman_id)
     return redirect('detail', doll_id=doll_id)
 
-class TalismanList(ListView):
+class TalismanList(LoginRequiredMixin, ListView):
     model = Talisman
 
-class TalismanDetail(DetailView):
+class TalismanDetail(LoginRequiredMixin, DetailView):
     model = Talisman
 
-class TalismanCreate(CreateView):
+class TalismanCreate(LoginRequiredMixin, CreateView):
     model = Talisman
     fields = '__all__'
 
-class TalismanUpdate(UpdateView):
+class TalismanUpdate(LoginRequiredMixin, UpdateView):
     model = Talisman
     fields = ['name', 'color']
 
-class TalismanDelete(DeleteView):
+class TalismanDelete(LoginRequiredMixin, DeleteView):
     model = Talisman
     success_url = '/talismans/'
 
