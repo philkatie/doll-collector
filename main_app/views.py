@@ -13,6 +13,10 @@ class DollCreate(CreateView):
     model = Doll
     fields = ['name', 'haunted', 'description', 'age']
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 class DollUpdate(UpdateView):
     model = Doll
     fields = ['name', 'description', 'age']
