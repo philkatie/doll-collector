@@ -18,4 +18,5 @@ urlpatterns = [
     path('talismans/create/', views.TalismanCreate.as_view(), name='talismans_create'),
     path('talismans/<int:pk>/update/', views.TalismanUpdate.as_view(), name='talismans_update'),
     path('talismans/<int:pk>/delete/', views.TalismanDelete.as_view(), name='talismans_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
 ] 
