@@ -48,6 +48,10 @@ def assoc_talisman(request, doll_id, talisman_id):
     Doll.objects.get(id=doll_id).talismans.add(talisman_id)
     return redirect('detail', doll_id=doll_id)
 
+def unassoc_talisman(request, doll_id, talisman_id):
+    Doll.objects.get(id=doll_id).talismans.remove(talisman_id)
+    return redirect('detail', doll_id=doll_id)
+
 class TalismanList(ListView):
     model = Talisman
 

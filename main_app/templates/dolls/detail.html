@@ -74,6 +74,12 @@
               A <span style="color: {{ tal.color }}">{{ tal.color }}</span> {{ tal.name }}
             </span>
           </div>
+          <div class="card-action">
+            <form action="{% url 'unassoc_talisman' doll.id tal.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Cleanse of Protection Spell</button>
+            </form>
+          </div>
         </div>
       {% endfor %}
     {% else %}
